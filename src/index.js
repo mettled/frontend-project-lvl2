@@ -10,7 +10,7 @@ const settingFile = {
 const getObjectFromFile = (pathLocal, options) => {
   const pathURL = path.isAbsolute(pathLocal) ? pathLocal
     : path.resolve(__dirname, 'files/', path.basename(pathLocal));
-  return JSON.parse(fs.readFileSync(pathURL, options.encoding, options.flag));
+  return JSON.parse(fs.readFileSync(path.normalize(pathURL), options.encoding, options.flag));
 };
 
 const getDifferByValue = (value, compareObject1, compareObject2) => {
@@ -28,9 +28,9 @@ const getDifferByValue = (value, compareObject1, compareObject2) => {
 const getDiff = (dataFirst, dataSecond) => {
   const unionKeys = new Set([...Object.keys(dataFirst), ...Object.keys(dataSecond)]);
   const resultCompare = [...unionKeys].reduce((acc, currentValue) => (
-    `${acc}${getDifferByValue(currentValue, dataFirst, dataSecond)}\n`
+    `${acc}\n${getDifferByValue(currentValue, dataFirst, dataSecond)}`
   ), '');
-  return `{\n${resultCompare}}`;
+  return `{${resultCompare}\n}`;
 };
 
 export default (path1, path2) => {
