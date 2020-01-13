@@ -2,7 +2,7 @@ language: node_js
 
 env:
   global:
-    - b15b2db5a2006fd99c2c41f78a7a66aeb062a873c051b194e9af3683065ddd55
+    - CC_TEST_REPORTER_ID=b15b2db5a2006fd99c2c41f78a7a66aeb062a873c051b194e9af3683065ddd55
 
 node_js:
   - node
