@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import yaml from 'js-yaml'
 import _ from 'lodash';
 
 const settingFile = {
@@ -8,10 +9,10 @@ const settingFile = {
 };
 
 const getObjectFromFile = (pathLocal, options) => {
-
   const pathURL = path.isAbsolute(pathLocal) ? pathLocal
     : path.resolve(__dirname, 'files/', path.basename(pathLocal));
-  
+
+
   return JSON.parse(fs.readFileSync(path.normalize(pathURL), options.encoding, options.flag));
 };
 

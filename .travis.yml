@@ -17,5 +17,10 @@ script:
   - make lint
   - make test
 
+
 after_script:
-  - if [[ "$TRAVIS_TEST_RESULT" == 0  ]]; then ./cc-test-reporter upload-coverage;
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT 
+
+notifications:
+  email: false
+
