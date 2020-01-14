@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import parseContentFromFile from './parser'
+import parseContentFromFile from './parser';
 
 const getDifferByValue = (value, compareObject1, compareObject2) => {
   if (_.has(compareObject1, value) === _.has(compareObject2, value)) {
