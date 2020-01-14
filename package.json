@@ -6,7 +6,7 @@
   "scripts": {
     "build": "NODE_ENV=production babel src --out-dir dist --copy-files --source-maps inline",
     "prepublishOnly": "npm run build",
-    "test": "jest"  
+    "test": "jest"
   },
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
@@ -38,6 +38,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.18.2",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "js-yaml": "^3.13.1"
   }
 }

@@ -8,8 +8,10 @@ const settingFile = {
 };
 
 const getObjectFromFile = (pathLocal, options) => {
+
   const pathURL = path.isAbsolute(pathLocal) ? pathLocal
     : path.resolve(__dirname, 'files/', path.basename(pathLocal));
+  
   return JSON.parse(fs.readFileSync(path.normalize(pathURL), options.encoding, options.flag));
 };
 
