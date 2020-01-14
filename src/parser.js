@@ -1,6 +1,7 @@
 import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
+import ini from 'ini';
 
 const options = {
   encoding: 'utf8',
@@ -10,6 +11,7 @@ const options = {
 const typeFiles = {
   '.json': (content) => JSON.parse(content),
   '.yaml': (content) => yaml.safeLoad(content),
+  '.ini': (content) => ini.parse(content),
 };
 
 const parseContentFromFile = (pathLocal) => {

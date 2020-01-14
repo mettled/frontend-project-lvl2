@@ -4,6 +4,7 @@ import gendiff from '../src';
 test.each([
   ['json', 'before', 'after', 'resultJson.txt'],
   ['yaml', 'before', 'after', 'resultYaml.txt'],
+  ['ini', 'before', 'after', 'resultIni.txt'],
 ])('test different two %s files', (format, before, after, resultFile) => {
   const path1 = `${__dirname}/../__fixture__/before.${format}`;
   const path2 = `${__dirname}/../__fixture__/after.${format}`;

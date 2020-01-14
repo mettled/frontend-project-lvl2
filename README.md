@@ -2,8 +2,10 @@
 
 [![Build Status](https://travis-ci.org/mettled/frontend-project-lvl1.svg?branch=master)](https://travis-ci.org/mettled/frontend-project-lvl1)
 
-Asciinema for Json files https://asciinema.org/a/4bSToJzKCyNJdKIrdwB5YvMRA
-Asciinema for Json files https://asciinema.org/a/wO4iLLBUC3v37Da2wTJjbdngZ
+Asciinema for json files https://asciinema.org/a/4bSToJzKCyNJdKIrdwB5YvMRA
+Asciinema for yaml files https://asciinema.org/a/wO4iLLBUC3v37Da2wTJjbdngZ
+asciinema for ini files https://asciinema.org/a/TW8xnFUY3lQvqPnEiTukKCyNM
+
 
 ## About util
 
