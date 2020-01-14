@@ -1,19 +1,5 @@
-import fs from 'fs';
-import path from 'path';
 import _ from 'lodash';
-
-const settingFile = {
-  encoding: 'utf8',
-  flag: 'r',
-};
-
-const getObjectFromFile = (pathLocal, options) => {
-  const pathURL = path.isAbsolute(pathLocal) ? pathLocal
-    : path.resolve(__dirname, 'files/', path.basename(pathLocal));
-
-
-  return JSON.parse(fs.readFileSync(path.normalize(pathURL), options.encoding, options.flag));
-};
+import parseContentFromFile from './parser'
 
 const getDifferByValue = (value, compareObject1, compareObject2) => {
   if (_.has(compareObject1, value) === _.has(compareObject2, value)) {
@@ -36,7 +22,7 @@ const getDiff = (dataFirst, dataSecond) => {
 };
 
 export default (path1, path2) => {
-  const dataFirst = getObjectFromFile(path1, settingFile);
-  const dataSecond = getObjectFromFile(path2, settingFile);
+  const dataFirst = parseContentFromFile(path1);
+  const dataSecond = parseContentFromFile(path2);
   return getDiff(dataFirst, dataSecond);
 };

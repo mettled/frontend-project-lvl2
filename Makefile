@@ -8,5 +8,8 @@ publish:
 test:
 	npm test -- --coverage
 
+test-w:
+	npm run watch
+
 lint:
 	npx eslint .
