@@ -1,0 +1,25 @@
+---
+common:
+  wow: true
+  follow: false
+  setting1: Value 1
+  setting10: tra-ta-ta
+  setting3:
+    key: value
+    key5: value5
+  setting4: blah blah
+  setting5:
+    key5: value5
+  setting6:
+    key: value
+    ops: vops
+group2:
+  qwe: ha-ha
+  rty: be-be
+group1:
+  foo: bar
+  baz: bars
+  nest: str
+group3:
+  fee: 100500
+                                                              

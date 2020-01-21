@@ -20,4 +20,4 @@ const render = (data, pathItem = '') => (
   }).join('')
 );
 
-export default (data) => render(data);
+export default (data) => render(data).trim();

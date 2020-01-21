@@ -7,7 +7,7 @@ const config = {
   removed: (f, item, lvl) => `${cs(lvl)}  - ${item.name}: ${hasChildren(lvl, f, item.field)}\n`,
   equal: (f, item, lvl) => `${cs(lvl)}    ${item.name}: ${hasChildren(lvl, f, item.field)}\n`,
   added: (f, item, lvl) => `${cs(lvl)}  + ${item.name}: ${hasChildren(lvl, f, item.field)}\n`,
-  changed: (f, item, lvl) => `${cs(lvl)}  - ${item.name}: ${hasChildren(lvl, f, item.field)}\n ${cs(2)}   + ${item.name}:  ${hasChildren(lvl, f, item.field2)}\n`,
+  changed: (f, item, lvl) => `${cs(lvl)}  - ${item.name}: ${hasChildren(lvl, f, item.field)}\n${cs(lvl)}  + ${item.name}: ${hasChildren(lvl, f, item.field2)}\n`,
 };
 
 const render = (data, padding = 0) => {
