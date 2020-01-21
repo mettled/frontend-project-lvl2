@@ -14,7 +14,7 @@ const typeFiles = {
   '.ini': (content) => ini.parse(content),
 };
 
-const parseContentFromFile = (pathLocal) => {
+export default (pathLocal) => {
   const pathToFile = path.isAbsolute(pathLocal) ? pathLocal : path.resolve(__dirname, 'files/', path.basename(pathLocal));
   const extname = path.extname(pathToFile);
 
@@ -23,5 +23,3 @@ const parseContentFromFile = (pathLocal) => {
 
   return typeFiles[extname](contentFromFile);
 };
-
-export default parseContentFromFile;
