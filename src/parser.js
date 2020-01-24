@@ -15,7 +15,8 @@ const typeFiles = {
 };
 
 export default (pathLocal) => {
-  const pathToFile = path.isAbsolute(pathLocal) ? pathLocal : path.resolve(__dirname, 'files/', path.basename(pathLocal));
+  const pathToFile = path.isAbsolute(pathLocal) ? pathLocal
+    : path.resolve(__dirname, path.normalize(pathLocal));
   const extname = path.extname(pathToFile);
 
   const contentFromFile = fs.readFileSync(path.normalize(pathToFile),
