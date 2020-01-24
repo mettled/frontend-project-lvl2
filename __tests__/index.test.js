@@ -16,7 +16,7 @@ test.each([
 ])('test differences two %s files : %s and %s', (format, before, after, resultFile, resultFormat) => {
   const path1 = getPathToFile(before, format);
   const path2 = getPathToFile(after, format);
-  const result = fs.readFileSync(getPathToFile(resultFile,'txt') , 'utf8', 'r').trim();
+  const result = fs.readFileSync(getPathToFile(resultFile, 'txt'), 'utf8', 'r').trim();
 
   expect(gendiff(path1, path2, resultFormat)).toBe(result);
 });
