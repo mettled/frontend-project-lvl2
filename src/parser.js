@@ -19,8 +19,8 @@ export default (pathLocal) => {
     : path.resolve(__dirname, path.normalize(pathLocal));
   const extname = path.extname(pathToFile);
 
-  const contentFromFile = fs.readFileSync(path.normalize(pathToFile),
+  const getContentFromFile = fs.readFileSync(path.normalize(pathToFile),
     options.encoding, options.flag);
 
-  return typeFiles[extname](contentFromFile);
+  return typeFiles[extname](getContentFromFile);
 };

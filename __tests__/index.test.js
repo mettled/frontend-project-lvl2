@@ -5,13 +5,7 @@ const getPathToFile = (fileName, fileFormat) => (`${__dirname}/../__fixture__/${
 
 test.each([
   ['json', 'before2', 'after2', 'resultJson2_JsObject', 'object'],
-  ['json', 'before2', 'after2', 'resultJson2_plain', 'plain'],
-  ['json', 'before2', 'after2', 'resultJson2_json', 'json'],
-  ['yaml', 'before2', 'after2', 'resultYaml2_JsObject', 'object'],
   ['yaml', 'before2', 'after2', 'resultYaml2_plain', 'plain'],
-  ['yaml', 'before2', 'after2', 'resultYaml2_json', 'json'],
-  ['ini', 'before2', 'after2', 'resultIni2_JsObject', 'object'],
-  ['ini', 'before2', 'after2', 'resultIni2_plain', 'plain'],
   ['ini', 'before2', 'after2', 'resultIni2_json', 'json'],
 ])('test differences two %s files : %s and %s', (format, before, after, resultFile, resultFormat) => {
   const path1 = getPathToFile(before, format);
