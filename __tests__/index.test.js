@@ -1,7 +1,7 @@
 import fs from 'fs';
 import gendiff from '../src';
 
-const getPathToFile = (fileName, fileFormat) => (`${__dirname}/../__fixture__/${fileName}.${fileFormat}`);
+const getPathToFile = (fileName, fileFormat) => `${__dirname}/../__fixture__/${fileName}.${fileFormat}`;
 
 test.each([
   ['json', 'before2', 'after2', 'resultJson2_JsObject', 'object'],

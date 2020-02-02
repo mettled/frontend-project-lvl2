@@ -3,24 +3,20 @@ import fs from 'fs';
 import path from 'path';
 import ini from 'ini';
 
-const options = {
-  encoding: 'utf8',
-  flag: 'r',
-};
-
 const typeFiles = {
-  '.json': (content) => JSON.parse(content),
-  '.yaml': (content) => yaml.safeLoad(content),
-  '.ini': (content) => ini.parse(content),
+  '.json': JSON.parse,
+  '.yaml': yaml.safeLoad,
+  '.ini': ini.parse,
 };
 
 export default (pathLocal) => {
-  const pathToFile = path.isAbsolute(pathLocal) ? pathLocal
-    : path.resolve(__dirname, path.normalize(pathLocal));
+  const pathToFile = path.normalize(
+    path.isAbsolute(pathLocal) ? pathLocal : path.resolve(__dirname, path.normalize(pathLocal)),
+  );
+
   const extname = path.extname(pathToFile);
 
-  const getContentFromFile = fs.readFileSync(path.normalize(pathToFile),
-    options.encoding, options.flag);
+  const contentFromFile = fs.readFileSync(pathToFile, 'utf8', 'r');
 
-  return typeFiles[extname](getContentFromFile);
+  return typeFiles[extname](contentFromFile);
 };
