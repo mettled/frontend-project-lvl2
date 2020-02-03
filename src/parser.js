@@ -1,6 +1,4 @@
 import yaml from 'js-yaml';
-import fs from 'fs';
-import path from 'path';
 import ini from 'ini';
 
 const parsers = {
@@ -9,13 +7,5 @@ const parsers = {
   '.ini': ini.parse,
 };
 
-export default (pathLocal) => {
-  const pathToFile = path.normalize(
-    path.isAbsolute(pathLocal) ? pathLocal : path.resolve(__dirname, path.normalize(pathLocal)),
-  );
 
-  const extname = path.extname(pathToFile);
-  const contentFromFile = fs.readFileSync(pathToFile, 'utf8', 'r');
-
-  return parsers[extname](contentFromFile);
-};
+export default (contentFromFile, extname) => parsers[extname](contentFromFile);
