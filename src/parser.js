@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import ini from 'ini';
 
-const typeFiles = {
+const extensionFiles = {
   '.json': JSON.parse,
   '.yaml': yaml.safeLoad,
   '.ini': ini.parse,
@@ -15,8 +15,7 @@ export default (pathLocal) => {
   );
 
   const extname = path.extname(pathToFile);
-
   const contentFromFile = fs.readFileSync(pathToFile, 'utf8', 'r');
 
-  return typeFiles[extname](contentFromFile);
+  return extensionFiles[extname](contentFromFile);
 };
