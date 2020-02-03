@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import parser from './parser';
-import builderAst from './builderAst';
+import buildAst from './builderAst';
 import getFormatedContent from './formatters';
 
 
@@ -22,6 +22,6 @@ export default (path1, path2, format) => {
   const parsedContentFromFile1 = parser(fileData1.dataFromFile, fileData1.extname);
   const parsedContentFromFile2 = parser(fileData2.dataFromFile, fileData2.extname);
 
-  const astTree = builderAst(parsedContentFromFile1, parsedContentFromFile2);
+  const astTree = buildAst(parsedContentFromFile1, parsedContentFromFile2);
   return getFormatedContent(format)(astTree);
 };
