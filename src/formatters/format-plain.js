@@ -1,23 +1,23 @@
 import { isObject } from 'lodash';
 
-const hasChildren = (f, value, path) => (isObject(value) ? f(value, path) : '');
 const getPath = (partPath, name) => (partPath === '' ? name : `${partPath}.${name}`);
 const getValue = (value) => (isObject(value) ? '[complex value]' : value);
 
 const config = {
-  added: (f, item, path) => (`Property '${path}' was added with value: ${getValue(item.field)}\n`),
-  equal: (f, item, path) => (hasChildren(f, item.field, path)),
-  removed: (f, item, path) => (`Property '${path}' was removed\n`),
-  changed: (f, item, path) => (`Property '${path}' was update: From ${getValue(item.field)} to ${getValue(item.field2)}\n`),
+  object: (f, item, path) => f(item.field, path),
+  added: (f, item, path) => [`Property '${path}' was added with value: ${getValue(item.field)}`],
+  equal: () => [],
+  removed: (f, item, path) => [`Property '${path}' was removed`],
+  changed: (f, item, path) => [`Property '${path}' was update: From ${getValue(item.field)} to ${getValue(item.field2)}`],
 };
 
 const render = (data, pathItem = '') => (
-  data.map((item) => {
+  data.reduce((acc, item) => {
     const { state, name } = item;
     const itemPath = getPath(pathItem, name);
-
-    return config[state](render, item, itemPath);
-  }).join('')
+    const nextRecord = config[state](render, item, itemPath);
+    return [...acc, ...nextRecord];
+  }, [])
 );
 
-export default (data) => render(data).trim();
+export default (data) => render(data).join('\n');

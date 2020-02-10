@@ -1,39 +1,45 @@
 const cs = (count) => ' '.repeat(count);
+const PADDING = 4;
 
 const typeField = [
   {
     check: (arg) => typeof arg !== 'object',
-    renderField: (value) => value,
+    getValue: (value) => value,
   },
   {
     check: (arg) => arg instanceof Array,
-    renderField: (value, lvl, f) => `{\n${f(value, lvl)}${cs(lvl)}}`,
+    getValue: (value, offset, f) => [`{\n${f(value, offset)}\n${cs(offset)}}`],
   },
   {
     check: (arg) => arg instanceof Object,
-    renderField: (value, lvl) => `{\n${Object.entries(value).map(([name, field]) => (`${cs(lvl + 4)}${name}: ${field}`)).join('\n')}\n${cs(lvl)}}`,
+    getValue: (value, offset) => [`{\n${Object.entries(value).map(([name, field]) => (`${cs(offset + PADDING)}${name}: ${field}`))}\n${cs(offset)}}`],
   },
 ];
 
-const checkItem = (value, f, lvl) => (
-  typeField.find(({ check }) => check(value)).renderField(value, f, lvl)
+const checkItem = (value, offset, f) => (
+  typeField.find(({ check }) => check(value)).getValue(value, offset + PADDING, f)
 );
 
 const config = {
-  removed: (f, item, lvl) => (
-    `${cs(lvl)}  - ${item.name}: ${checkItem(item.field, lvl + 4)}\n`
+  removed: (item, offset, f) => (
+    [`${cs(offset)}  - ${item.name}: ${checkItem(item.field, offset, f)}`]
   ),
-  equal: (f, item, lvl) => (
-    `${cs(lvl)}    ${item.name}: ${checkItem(item.field, lvl + 4, f)}\n`
+  added: (item, offset, f) => (
+    [`${cs(offset)}  + ${item.name}: ${checkItem(item.field, offset, f)}`]
   ),
-  added: (f, item, lvl) => (
-    `${cs(lvl)}  + ${item.name}: ${checkItem(item.field, lvl + 4)}\n`
+  object: (item, offset, f) => (
+    [`${cs(offset)}    ${item.name}: ${checkItem(item.field, offset, f)}`]
   ),
-  changed: (f, item, lvl) => (
-    `${cs(lvl)}  - ${item.name}: ${checkItem(item.field, lvl + 4)}\n${cs(lvl)}  + ${item.name}: ${checkItem(item.field2, lvl + 4)}\n`
+  equal: (item, offset) => (
+    [`${cs(offset)}    ${item.name}: ${item.field}`]
+  ),
+  changed: (item, offset, f) => (
+    [`${cs(offset)}  - ${item.name}: ${checkItem(item.field, offset, f)}`, `${cs(offset)}  + ${item.name}: ${checkItem(item.field2, offset, f)}`]
   ),
 };
 
-const render = (data, padding = 0) => (data.map((item) => (config[item.state](render, item, padding))).join(''));
+const render = (data, offset = 0) => (
+  data.reduce((acc, item) => ([...acc, ...config[item.state](item, offset, render)]), [])
+).join('\n');
 
-export default (data) => `{\n${render(data)}}`;
+export default (data) => `{\n${render(data)}\n}`;

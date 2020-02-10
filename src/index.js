@@ -1,14 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import parser from './parser';
+import getParser from './parser';
 import buildAst from './builderAst';
-import getFormatedContent from './formatters';
+import getFormater from './formatters';
 
 
 const readFile = (pathLocal) => {
-  const pathToFile = path.normalize(
-    path.isAbsolute(pathLocal) ? pathLocal : path.resolve(__dirname, path.normalize(pathLocal)),
-  );
+  const pathToFile = path.resolve(path.normalize(pathLocal));
 
   const extname = path.extname(pathToFile);
   const dataFromFile = fs.readFileSync(pathToFile, 'utf8', 'r');
@@ -19,9 +17,9 @@ export default (path1, path2, format) => {
   const fileData1 = readFile(path1);
   const fileData2 = readFile(path2);
 
-  const parsedContentFromFile1 = parser(fileData1.dataFromFile, fileData1.extname);
-  const parsedContentFromFile2 = parser(fileData2.dataFromFile, fileData2.extname);
+  const parsedContentFromFile1 = getParser[fileData1.extname](fileData1.dataFromFile);
+  const parsedContentFromFile2 = getParser[fileData2.extname](fileData2.dataFromFile);
 
   const astTree = buildAst(parsedContentFromFile1, parsedContentFromFile2);
-  return getFormatedContent(format)(astTree);
+  return getFormater(format)(astTree);
 };
