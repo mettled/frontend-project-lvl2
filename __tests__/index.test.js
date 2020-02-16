@@ -4,9 +4,9 @@ import gendiff from '../src';
 const getPathToFile = (fileName, fileFormat) => `${__dirname}/../__fixture__/${fileName}.${fileFormat}`;
 
 test.each([
-  ['json', 'before2', 'after2', 'resultJson2_JsObject', 'object'],
-  ['yaml', 'before2', 'after2', 'resultYaml2_plain', 'plain'],
-  ['ini', 'before2', 'after2', 'resultIni2_json', 'json'],
+  ['json', 'before2', 'after2', 'result_object', 'object'],
+  ['yaml', 'before2', 'after2', 'result_plain', 'plain'],
+  ['ini', 'before2', 'after2', 'result_json', 'json'],
 ])('test differences two %s files : %s and %s', (format, before, after, resultFile, resultFormat) => {
   const path1 = getPathToFile(before, format);
   const path2 = getPathToFile(after, format);

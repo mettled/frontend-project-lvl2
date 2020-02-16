@@ -4,11 +4,11 @@ const getPath = (partPath, name) => (partPath === '' ? name : `${partPath}.${nam
 const getValue = (value) => (isObject(value) ? '[complex value]' : value);
 
 const config = {
-  object: (f, item, path) => f(item.field, path),
-  added: (f, item, path) => [`Property '${path}' was added with value: ${getValue(item.field)}`],
+  parent: (f, item, path) => f(item.children, path),
+  added: (f, item, path) => [`Property '${path}' was added with value: ${getValue(item.value)}`],
   equal: () => [],
   removed: (f, item, path) => [`Property '${path}' was removed`],
-  changed: (f, item, path) => [`Property '${path}' was update: From ${getValue(item.field)} to ${getValue(item.field2)}`],
+  changed: (f, item, path) => [`Property '${path}' was update: From ${getValue(item.valueBefore)} to ${getValue(item.valueAfter)}`],
 };
 
 const render = (data, pathItem = '') => (

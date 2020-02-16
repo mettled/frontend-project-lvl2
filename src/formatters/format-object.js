@@ -22,19 +22,19 @@ const checkItem = (value, offset, f) => (
 
 const config = {
   removed: (item, offset, f) => (
-    [`${cs(offset)}  - ${item.name}: ${checkItem(item.field, offset, f)}`]
+    [`${cs(offset)}  - ${item.name}: ${checkItem(item.value, offset, f)}`]
   ),
   added: (item, offset, f) => (
-    [`${cs(offset)}  + ${item.name}: ${checkItem(item.field, offset, f)}`]
+    [`${cs(offset)}  + ${item.name}: ${checkItem(item.value, offset, f)}`]
   ),
-  object: (item, offset, f) => (
-    [`${cs(offset)}    ${item.name}: ${checkItem(item.field, offset, f)}`]
+  parent: (item, offset, f) => (
+    [`${cs(offset)}    ${item.name}: ${checkItem(item.children, offset, f)}`]
   ),
   equal: (item, offset) => (
-    [`${cs(offset)}    ${item.name}: ${item.field}`]
+    [`${cs(offset)}    ${item.name}: ${item.value}`]
   ),
   changed: (item, offset, f) => (
-    [`${cs(offset)}  - ${item.name}: ${checkItem(item.field, offset, f)}`, `${cs(offset)}  + ${item.name}: ${checkItem(item.field2, offset, f)}`]
+    [`${cs(offset)}  - ${item.name}: ${checkItem(item.valueBefore, offset, f)}`, `${cs(offset)}  + ${item.name}: ${checkItem(item.valueAfter, offset, f)}`]
   ),
 };
 
