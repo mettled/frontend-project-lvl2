@@ -7,10 +7,6 @@ const typeField = [
     getValue: (value) => value,
   },
   {
-    check: (arg) => arg instanceof Array,
-    getValue: (value, offset, f) => [`{\n${f(value, offset)}\n${cs(offset)}}`],
-  },
-  {
     check: (arg) => arg instanceof Object,
     getValue: (value, offset) => [`{\n${Object.entries(value).map(([name, field]) => (`${cs(offset + PADDING)}${name}: ${field}`))}\n${cs(offset)}}`],
   },
@@ -28,7 +24,7 @@ const config = {
     [`${cs(offset)}  + ${item.name}: ${checkItem(item.value, offset, f)}`]
   ),
   parent: (item, offset, f) => (
-    [`${cs(offset)}    ${item.name}: ${checkItem(item.children, offset, f)}`]
+    [`${cs(offset)}    ${item.name}: {\n${f(item.children, offset + PADDING)}\n${cs(offset + PADDING)}}`]
   ),
   equal: (item, offset) => (
     [`${cs(offset)}    ${item.name}: ${item.value}`]
