@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import getParser from './parser';
-import buildAst from './builderAst';
+import buildAst from './astBuilder';
 import getFormater from './formatters';
 
 

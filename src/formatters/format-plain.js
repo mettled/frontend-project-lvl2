@@ -1,6 +1,6 @@
 import { isObject } from 'lodash';
 
-const getPath = (partPath, name) => (partPath === '' ? name : `${partPath}.${name}`);
+const getPath = (partPath, key) => (partPath === '' ? key : `${partPath}.${key}`);
 const getValue = (value) => (isObject(value) ? '[complex value]' : value);
 
 const config = {
@@ -13,8 +13,8 @@ const config = {
 
 const render = (data, pathItem = '') => (
   data.reduce((acc, item) => {
-    const { state, name } = item;
-    const itemPath = getPath(pathItem, name);
+    const { state, key } = item;
+    const itemPath = getPath(pathItem, key);
     const nextRecord = config[state](render, item, itemPath);
     return [...acc, ...nextRecord];
   }, [])

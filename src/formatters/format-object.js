@@ -8,7 +8,7 @@ const typeField = [
   },
   {
     check: (arg) => arg instanceof Object,
-    getValue: (value, offset) => [`{\n${Object.entries(value).map(([name, field]) => (`${cs(offset + PADDING)}${name}: ${field}`))}\n${cs(offset)}}`],
+    getValue: (value, offset) => [`{\n${Object.entries(value).map(([key, field]) => (`${cs(offset + PADDING)}${key}: ${field}`))}\n${cs(offset)}}`],
   },
 ];
 
@@ -18,19 +18,19 @@ const checkItem = (value, offset, f) => (
 
 const config = {
   removed: (item, offset, f) => (
-    [`${cs(offset)}  - ${item.name}: ${checkItem(item.value, offset, f)}`]
+    [`${cs(offset)}  - ${item.key}: ${checkItem(item.value, offset, f)}`]
   ),
   added: (item, offset, f) => (
-    [`${cs(offset)}  + ${item.name}: ${checkItem(item.value, offset, f)}`]
+    [`${cs(offset)}  + ${item.key}: ${checkItem(item.value, offset, f)}`]
   ),
   parent: (item, offset, f) => (
-    [`${cs(offset)}    ${item.name}: {\n${f(item.children, offset + PADDING)}\n${cs(offset + PADDING)}}`]
+    [`${cs(offset)}    ${item.key}: {\n${f(item.children, offset + PADDING)}\n${cs(offset + PADDING)}}`]
   ),
   equal: (item, offset) => (
-    [`${cs(offset)}    ${item.name}: ${item.value}`]
+    [`${cs(offset)}    ${item.key}: ${item.value}`]
   ),
   changed: (item, offset, f) => (
-    [`${cs(offset)}  - ${item.name}: ${checkItem(item.valueBefore, offset, f)}`, `${cs(offset)}  + ${item.name}: ${checkItem(item.valueAfter, offset, f)}`]
+    [`${cs(offset)}  - ${item.key}: ${checkItem(item.valueBefore, offset, f)}`, `${cs(offset)}  + ${item.key}: ${checkItem(item.valueAfter, offset, f)}`]
   ),
 };
 
