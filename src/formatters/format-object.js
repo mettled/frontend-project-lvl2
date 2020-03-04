@@ -8,32 +8,32 @@ const typeField = [
   },
   {
     check: (arg) => arg instanceof Object,
-    getValue: (value, depth) => `{\n${Object.entries(value).map(([key, field]) => (`${amountSpaces(depth + PADDING)}${key}: ${field}`))}\n${amountSpaces(depth)}}`,
+    getValue: (value, level) => `{\n${Object.entries(value).map(([key, field]) => (`${amountSpaces(level + PADDING)}${key}: ${field}`))}\n${amountSpaces(level)}}`,
   },
 ];
 
-const checkItem = (value, depth, f) => (
-  typeField.find(({ check }) => check(value)).getValue(value, depth + PADDING, f)
+const checkItem = (value, level, f) => (
+  typeField.find(({ check }) => check(value)).getValue(value, level + PADDING, f)
 );
 
 const config = {
-  removed: (item, depth, f) => (
-    `${amountSpaces(depth)}  - ${item.key}: ${checkItem(item.value, depth, f)}`
+  removed: (item, level, f) => (
+    `${amountSpaces(level)}  - ${item.key}: ${checkItem(item.value, level, f)}`
   ),
-  added: (item, depth, f) => (
-    `${amountSpaces(depth)}  + ${item.key}: ${checkItem(item.value, depth, f)}`
+  added: (item, level, f) => (
+    `${amountSpaces(level)}  + ${item.key}: ${checkItem(item.value, level, f)}`
   ),
-  parent: (item, depth, f) => (
-    `${amountSpaces(depth)}    ${item.key}: {\n${f(item.children, depth + PADDING)}\n${amountSpaces(depth + PADDING)}}`
+  parent: (item, level, f) => (
+    `${amountSpaces(level)}    ${item.key}: {\n${f(item.children, level + PADDING)}\n${amountSpaces(level + PADDING)}}`
   ),
-  equal: (item, depth) => (
-    `${amountSpaces(depth)}    ${item.key}: ${item.value}`
+  equal: (item, level) => (
+    `${amountSpaces(level)}    ${item.key}: ${item.value}`
   ),
-  changed: (item, depth, f) => (
-    `${amountSpaces(depth)}  - ${item.key}: ${checkItem(item.valueBefore, depth, f)}\n${amountSpaces(depth)}  + ${item.key}: ${checkItem(item.valueAfter, depth, f)}`
+  changed: (item, level, f) => (
+    `${amountSpaces(level)}  - ${item.key}: ${checkItem(item.valueBefore, level, f)}\n${amountSpaces(level)}  + ${item.key}: ${checkItem(item.valueAfter, level, f)}`
   ),
 };
 
-const render = (data, depth = 0) => data.map((item) => (config[item.state](item, depth, render))).join('\n');
+const render = (data, level = 0) => data.map((item) => (config[item.state](item, level, render))).join('\n');
 
 export default (data) => `{\n${render(data)}\n}`;
