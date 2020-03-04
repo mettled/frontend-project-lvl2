@@ -1,4 +1,4 @@
-const cs = (count) => ' '.repeat(count);
+const amountSpaces = (count) => ' '.repeat(count);
 const PADDING = 4;
 
 const typeField = [
@@ -8,34 +8,32 @@ const typeField = [
   },
   {
     check: (arg) => arg instanceof Object,
-    getValue: (value, offset) => [`{\n${Object.entries(value).map(([key, field]) => (`${cs(offset + PADDING)}${key}: ${field}`))}\n${cs(offset)}}`],
+    getValue: (value, depth) => `{\n${Object.entries(value).map(([key, field]) => (`${amountSpaces(depth + PADDING)}${key}: ${field}`))}\n${amountSpaces(depth)}}`,
   },
 ];
 
-const checkItem = (value, offset, f) => (
-  typeField.find(({ check }) => check(value)).getValue(value, offset + PADDING, f)
+const checkItem = (value, depth, f) => (
+  typeField.find(({ check }) => check(value)).getValue(value, depth + PADDING, f)
 );
 
 const config = {
-  removed: (item, offset, f) => (
-    [`${cs(offset)}  - ${item.key}: ${checkItem(item.value, offset, f)}`]
+  removed: (item, depth, f) => (
+    `${amountSpaces(depth)}  - ${item.key}: ${checkItem(item.value, depth, f)}`
   ),
-  added: (item, offset, f) => (
-    [`${cs(offset)}  + ${item.key}: ${checkItem(item.value, offset, f)}`]
+  added: (item, depth, f) => (
+    `${amountSpaces(depth)}  + ${item.key}: ${checkItem(item.value, depth, f)}`
   ),
-  parent: (item, offset, f) => (
-    [`${cs(offset)}    ${item.key}: {\n${f(item.children, offset + PADDING)}\n${cs(offset + PADDING)}}`]
+  parent: (item, depth, f) => (
+    `${amountSpaces(depth)}    ${item.key}: {\n${f(item.children, depth + PADDING)}\n${amountSpaces(depth + PADDING)}}`
   ),
-  equal: (item, offset) => (
-    [`${cs(offset)}    ${item.key}: ${item.value}`]
+  equal: (item, depth) => (
+    `${amountSpaces(depth)}    ${item.key}: ${item.value}`
   ),
-  changed: (item, offset, f) => (
-    [`${cs(offset)}  - ${item.key}: ${checkItem(item.valueBefore, offset, f)}`, `${cs(offset)}  + ${item.key}: ${checkItem(item.valueAfter, offset, f)}`]
+  changed: (item, depth, f) => (
+    `${amountSpaces(depth)}  - ${item.key}: ${checkItem(item.valueBefore, depth, f)}\n${amountSpaces(depth)}  + ${item.key}: ${checkItem(item.valueAfter, depth, f)}`
   ),
 };
 
-const render = (data, offset = 0) => (
-  data.reduce((acc, item) => ([...acc, ...config[item.state](item, offset, render)]), [])
-).join('\n');
+const render = (data, depth = 0) => data.map((item) => (config[item.state](item, depth, render))).join('\n');
 
 export default (data) => `{\n${render(data)}\n}`;
