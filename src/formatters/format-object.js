@@ -1,36 +1,27 @@
-const indent = (count) => ' '.repeat(count);
+const makeIndent = (count) => ' '.repeat(count);
 const PADDING = 4;
 
-const typeField = [
-  {
-    check: (arg) => typeof arg !== 'object',
-    getValue: (value) => value,
-  },
-  {
-    check: (arg) => arg instanceof Object,
-    getValue: (value, level) => `{\n${Object.entries(value).map(([key, field]) => (`${indent(level + PADDING)}${key}: ${field}`))}\n${indent(level)}}`,
-  },
-];
-
-const checkItem = (value, level, f) => (
-  typeField.find(({ check }) => check(value)).getValue(value, level + PADDING, f)
+const getFormattedValue = (value, level) => (
+  typeof value === 'object'
+    ? `{\n${Object.entries(value).map(([key, field]) => (`${makeIndent(level + PADDING)}${key}: ${field}`))}\n${makeIndent(level)}}`
+    : value
 );
 
 const config = {
-  removed: (item, level, f) => (
-    `${indent(level)}  - ${item.key}: ${checkItem(item.value, level, f)}`
+  removed: (item, level) => (
+    `${makeIndent(level)}  - ${item.key}: ${getFormattedValue(item.value, level + PADDING)}`
   ),
-  added: (item, level, f) => (
-    `${indent(level)}  + ${item.key}: ${checkItem(item.value, level, f)}`
+  added: (item, level) => (
+    `${makeIndent(level)}  + ${item.key}: ${getFormattedValue(item.value, level + PADDING)}`
   ),
   parent: (item, level, f) => (
-    `${indent(level)}    ${item.key}: {\n${f(item.children, level + PADDING)}\n${indent(level + PADDING)}}`
+    `${makeIndent(level)}    ${item.key}: {\n${f(item.children, level + PADDING)}\n${makeIndent(level + PADDING)}}`
   ),
   equal: (item, level) => (
-    `${indent(level)}    ${item.key}: ${item.value}`
+    `${makeIndent(level)}    ${item.key}: ${item.value}`
   ),
-  changed: (item, level, f) => (
-    `${indent(level)}  - ${item.key}: ${checkItem(item.valueBefore, level, f)}\n${indent(level)}  + ${item.key}: ${checkItem(item.valueAfter, level, f)}`
+  changed: (item, level) => (
+    `${makeIndent(level)}  - ${item.key}: ${getFormattedValue(item.valueBefore, level + PADDING)}\n${makeIndent(level)}  + ${item.key}: ${getFormattedValue(item.valueAfter, level + PADDING)}`
   ),
 };
 

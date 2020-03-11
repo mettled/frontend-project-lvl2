@@ -3,32 +3,32 @@ import { isObject, has } from 'lodash';
 const properties = [
   {
     state: 'removed',
-    check: (dataFirst, dataSecond, key) => has(dataFirst, key) && !has(dataSecond, key),
+    check: (firstData, secondData, key) => has(firstData, key) && !has(secondData, key),
     getNodeData: (value) => ({ value }),
   },
   {
     state: 'added',
-    check: (dataFirst, dataSecond, key) => !has(dataFirst, key) && has(dataSecond, key),
+    check: (firstData, secondData, key) => !has(firstData, key) && has(secondData, key),
     getNodeData: (value1, value2) => ({ value: value2 }),
   },
   {
     state: 'parent',
-    check: (dataFirst, dataSecond, key) => isObject(dataFirst[key]) && isObject(dataSecond[key]),
+    check: (firstData, secondData, key) => isObject(firstData[key]) && isObject(secondData[key]),
     getNodeData: (value1, value2, f) => ({ children: f(value1, value2) }),
   },
   {
     state: 'equal',
-    check: (dataFirst, dataSecond, key) => dataFirst[key] === dataSecond[key],
+    check: (firstData, secondData, key) => firstData[key] === secondData[key],
     getNodeData: (value) => ({ value }),
   },
   {
     state: 'changed',
-    check: (dataFirst, dataSecond, key) => (dataFirst[key] !== dataSecond[key]),
+    check: (firstData, secondData, key) => (firstData[key] !== secondData[key]),
     getNodeData: (value1, value2) => ({ valueBefore: value1, valueAfter: value2 }),
   },
 ];
 
-const astBuild = (dataBefore = {}, dataAfter = {}) => {
+const buildAst = (dataBefore = {}, dataAfter = {}) => {
   const unionKeys = new Set([...Object.keys(dataBefore), ...Object.keys(dataAfter)]);
   return [...unionKeys].map((key) => {
     const { state, getNodeData } = properties.find(
@@ -36,8 +36,8 @@ const astBuild = (dataBefore = {}, dataAfter = {}) => {
     );
     const valueBefore = dataBefore[key];
     const valueAfter = dataAfter[key];
-    return { state, key, ...getNodeData(valueBefore, valueAfter, astBuild) };
+    return { state, key, ...getNodeData(valueBefore, valueAfter, buildAst) };
   });
 };
 
-export default astBuild;
+export default buildAst;
