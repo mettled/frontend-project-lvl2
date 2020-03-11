@@ -1,7 +1,7 @@
 const makeIndent = (count) => ' '.repeat(count);
 const PADDING = 4;
 
-const getFormattedValue = (value, level) => (
+const getValue = (value, level) => (
   typeof value === 'object'
     ? `{\n${Object.entries(value).map(([key, field]) => (`${makeIndent(level + PADDING)}${key}: ${field}`))}\n${makeIndent(level)}}`
     : value
@@ -9,10 +9,10 @@ const getFormattedValue = (value, level) => (
 
 const config = {
   removed: (item, level) => (
-    `${makeIndent(level)}  - ${item.key}: ${getFormattedValue(item.value, level + PADDING)}`
+    `${makeIndent(level)}  - ${item.key}: ${getValue(item.value, level + PADDING)}`
   ),
   added: (item, level) => (
-    `${makeIndent(level)}  + ${item.key}: ${getFormattedValue(item.value, level + PADDING)}`
+    `${makeIndent(level)}  + ${item.key}: ${getValue(item.value, level + PADDING)}`
   ),
   parent: (item, level, f) => (
     `${makeIndent(level)}    ${item.key}: {\n${f(item.children, level + PADDING)}\n${makeIndent(level + PADDING)}}`
@@ -21,7 +21,7 @@ const config = {
     `${makeIndent(level)}    ${item.key}: ${item.value}`
   ),
   changed: (item, level) => (
-    `${makeIndent(level)}  - ${item.key}: ${getFormattedValue(item.valueBefore, level + PADDING)}\n${makeIndent(level)}  + ${item.key}: ${getFormattedValue(item.valueAfter, level + PADDING)}`
+    `${makeIndent(level)}  - ${item.key}: ${getValue(item.valueBefore, level + PADDING)}\n${makeIndent(level)}  + ${item.key}: ${getValue(item.valueAfter, level + PADDING)}`
   ),
 };
 
