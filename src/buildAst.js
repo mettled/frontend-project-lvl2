@@ -1,4 +1,4 @@
-import { isObject, has } from 'lodash';
+import { isObject, has, union } from 'lodash';
 
 const properties = [
   {
@@ -29,8 +29,8 @@ const properties = [
 ];
 
 const buildAst = (dataBefore = {}, dataAfter = {}) => {
-  const unionKeys = new Set([...Object.keys(dataBefore), ...Object.keys(dataAfter)]);
-  return [...unionKeys].map((key) => {
+  const unionKeys = union([...Object.keys(dataBefore), ...Object.keys(dataAfter)]);
+  return unionKeys.map((key) => {
     const { state, getNodeData } = properties.find(
       ({ check }) => check(dataBefore, dataAfter, key),
     );
