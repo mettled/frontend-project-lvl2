@@ -1,11 +1,16 @@
+import { isObject } from 'lodash';
+
 const makeIndent = (count) => ' '.repeat(count);
 const PADDING = 4;
 
-const getValue = (value, level) => (
-  typeof value === 'object'
-    ? `{\n${Object.entries(value).map(([key, field]) => (`${makeIndent(level + PADDING)}${key}: ${field}`))}\n${makeIndent(level)}}`
-    : value
-);
+const getValue = (value, level) => {
+  if (!isObject(value)) {
+    return value;
+  }
+  const collection = Object.entries(value);
+  const convertedCollection = collection.map(([key, field]) => (`${makeIndent(level + PADDING)}${key}: ${field}`));
+  return `{\n${convertedCollection}\n${makeIndent(level)}}`;
+};
 
 const config = {
   removed: (item, level) => (

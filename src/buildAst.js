@@ -29,7 +29,7 @@ const properties = [
 ];
 
 const buildAst = (dataBefore = {}, dataAfter = {}) => {
-  const unionKeys = union([...Object.keys(dataBefore), ...Object.keys(dataAfter)]);
+  const unionKeys = union([...Object.keys(dataBefore), ...Object.keys(dataAfter)]).sort();
   return unionKeys.map((key) => {
     const { state, getNodeData } = properties.find(
       ({ check }) => check(dataBefore, dataAfter, key),
