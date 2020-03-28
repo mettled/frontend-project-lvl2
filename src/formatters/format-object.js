@@ -7,9 +7,12 @@ const getValue = (value, level) => {
   if (!isObject(value)) {
     return value;
   }
-  const collection = Object.entries(value);
-  const convertedCollection = collection.map(([key, field]) => (`${makeIndent(level + PADDING)}${key}: ${field}`));
-  return `{\n${convertedCollection}\n${makeIndent(level)}}`;
+
+  const convertedValue = Object
+    .entries(value)
+    .map(([key, field]) => (`${makeIndent(level + PADDING)}${key}: ${field}`));
+
+  return `{\n${convertedValue}\n${makeIndent(level)}}`;
 };
 
 const config = {
